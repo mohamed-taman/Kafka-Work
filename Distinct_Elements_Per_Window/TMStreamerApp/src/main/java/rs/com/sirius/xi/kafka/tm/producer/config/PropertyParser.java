@@ -1,4 +1,3 @@
-
 package rs.com.sirius.xi.kafka.tm.producer.config;
 
 import static java.lang.Integer.parseInt;
@@ -10,8 +9,8 @@ import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.KAFKA_BROKER;
 import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.KAFKA_BROKER_PORT;
 
 /**
- * This class is responsible for all Command line argument parsing, 
- * for Producer Application.
+ * This class is responsible for all Command line argument parsing, for Producer
+ * Application.
  *
  * @author Mohamed Taman
  */
@@ -23,15 +22,15 @@ public class PropertyParser {
     private String filePath;
     private boolean isAsync = false;
 
-    public PropertyParser(){
+    public PropertyParser() {
     }
-    
-    public static PropertyParser getParser(){
+
+    public static PropertyParser getParser() {
         return new PropertyParser();
     }
 
-    public PropertyParser parse( String... args) {
-       
+    public PropertyParser parse(String... args) {
+
         Arrays.asList(args).stream().forEach(entry -> {
             String option = entry.split(";")[0].trim().toLowerCase();
             String value = entry.split(";").length == 1 ? "" : entry.split(";")[1].trim();
@@ -53,20 +52,20 @@ public class PropertyParser {
                     this.topic = value;
             }
         });
-        
+
         return this;
     }
 
     public String getHost() {
-        return isNull(this.host)? KAFKA_BROKER : this.host;
+        return isNull(this.host) ? KAFKA_BROKER : this.host;
     }
 
     public int getPort() {
-        return isNull(this.port)? KAFKA_BROKER_PORT : this.port;
+        return isNull(this.port) ? KAFKA_BROKER_PORT : this.port;
     }
 
     public String getTopic() {
-        return isNull(this.topic)? IN_TOPIC : this.topic;
+        return isNull(this.topic) ? IN_TOPIC : this.topic;
     }
 
     public String getFilePath() {

@@ -235,10 +235,10 @@ public final class LogFrameStreamer {
         }
 
         props = PropertyParser.getParser().parse(args);
-        
+
         //Printing configurations
         props.print();
-        
+
         // Creating the stream Appplication
         final KafkaStreams streams = newKStreams();
 
@@ -257,11 +257,10 @@ public final class LogFrameStreamer {
                     -> err.printf("Exception happens during stream processing -> %s %n",
                             throwable.getMessage()));
 
-            
             // Start the Kafka Streams threads
             streams.start();
             out.println("\nStreamer application Started successfully.\n");
-            
+
             // Add shutdown hook to respond to SIGTERM (Ctrl+c) and gracefully close Kafka Streams
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 streams.close();
@@ -281,13 +280,4 @@ public final class LogFrameStreamer {
     }
 
 }
-
-
-
-
-
-
-
-
-
 

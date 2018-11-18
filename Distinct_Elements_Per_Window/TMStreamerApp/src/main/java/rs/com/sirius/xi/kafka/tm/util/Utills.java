@@ -72,8 +72,8 @@ public final class Utills {
     }
 
     /**
-     * This method is used to format a a given timestamp,
-     * with a specific pattern "EEEE,MMMM d,yyyy HH:mm:ss:A"
+     * This method is used to format a a given timestamp, with a specific
+     * pattern "EEEE,MMMM d,yyyy HH:mm:ss:A"
      *
      * @param timestamp to be formatted.
      * @return formatted timestamp.
@@ -89,7 +89,7 @@ public final class Utills {
 
         return date.format(formatter);
     }
-    
+
     public static void main(String[] args) {
         System.out.println(toFormatedDatetime(1542058299));
     }

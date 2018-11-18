@@ -60,7 +60,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>rs.com.sirius.xi.kafka.streams.work.producer.Producer</mainClass>
+                    <mainClass>rs.com.sirius.xi.kafka.tm.producer.Producer</mainClass>
                     <arguments>
                         <argument>--file;/Users/mohamed_taman/Applications/Kafka/kafka_2.12-2.0.1/data/Sample.txt</argument>
                         <argument>--port;9092</argument>
@@ -99,7 +99,7 @@
                                     <goal>java</goal>  
                                 </goals>  
                                 <configuration>
-                                    <mainClass>rs.com.sirius.xi.kafka.streams.work.producer.Producer</mainClass>
+                                    <mainClass>rs.com.sirius.xi.kafka.tm.producer.Producer</mainClass>
                                     <arguments>
                                         <argument>--file;/Users/mohamed_taman/Applications/Kafka/kafka_2.12-2.0.1/data/Sample.txt</argument>
                                         <argument>--port;9092</argument>
@@ -130,7 +130,7 @@
                                     <goal>java</goal>  
                                 </goals>  
                                 <configuration>
-                                    <mainClass>rs.com.sirius.xi.kafka.streams.work.stream.LogFrameStreamer</mainClass>
+                                    <mainClass>rs.com.sirius.xi.kafka.tm.stream.LogFrameStreamer</mainClass>
                                     <arguments>
                                         <argument>--reset</argument>
                                         <argument>--port;9092</argument>

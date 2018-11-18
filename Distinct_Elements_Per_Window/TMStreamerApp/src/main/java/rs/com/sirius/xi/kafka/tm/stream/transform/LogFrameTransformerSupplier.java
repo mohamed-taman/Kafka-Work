@@ -48,9 +48,10 @@ public final class LogFrameTransformerSupplier
                 // Check poison pill frame
                 if (isNull(value)
                         || isNull(value.get("uid"))
-                        || isNull(value.get("ts")))
+                        || isNull(value.get("ts"))) {
                     return null;
-                
+                }
+
                 /* 
                    For simplification (and unlike the traditional use of 
                    different data structure to hold uniqueness of users) 

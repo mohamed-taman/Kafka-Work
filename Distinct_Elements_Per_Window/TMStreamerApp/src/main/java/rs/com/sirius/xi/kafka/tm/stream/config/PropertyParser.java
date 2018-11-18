@@ -11,8 +11,8 @@ import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.KAFKA_BROKER_PORT
 import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.OUT_TOPIC;
 
 /**
- * This class is responsible for all Command line argument parsing, 
- * for Streaming Application.
+ * This class is responsible for all Command line argument parsing, for
+ * Streaming Application.
  *
  * @author Mohamed Taman
  */
@@ -53,7 +53,7 @@ public final class PropertyParser {
                 case "--printtoconsole":
                     this.printToConsole = Boolean.valueOf(value);
                     break;
-                    case "--printtotopic":
+                case "--printtotopic":
                     this.printToTopic = Boolean.valueOf(value);
                     break;
                 case "--intopic":
@@ -104,8 +104,8 @@ public final class PropertyParser {
         return String.format("Parsed properties: %n{%n Hostname= %s,%n "
                 + "Kafka Port= %d,%n Kafka Stream topic= %s,%n Kafka out topic= %s,%n "
                 + "Reset app state= %s,%n Print stream result to Standard console= %s, %n "
-                + "Send stream result to out Topic= %s%n}", this.host, this.port, this.inTopic, 
-                this.outTopic, this.doReset,this.printToConsole, this.printToTopic);
+                + "Send stream result to out Topic= %s%n}", this.host, this.port, this.inTopic,
+                this.outTopic, this.doReset, this.printToConsole, this.printToTopic);
     }
 
 }
