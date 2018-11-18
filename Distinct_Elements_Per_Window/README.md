@@ -72,7 +72,7 @@ Now lets run our *Streamer application* with the following `mvn` command in a ne
 ```bash  
 >  mvn exec:java -Dexec.mainClass="rs.com.sirius.xi.kafka.tm.stream.LogFrameStreamer"  -Dexec.args="--reset --port;9092 --host;localhost --inTopic;log-frames-topic --outTopic;users-count-topic --printToConsole;true --printToTopic;true"  
 ```  
-2. More easer using *maven profile* which configured with all default values, run the following  mvn  command:  
+2. More easer using *maven profile* which is -re-configured with all default values, run the following  mvn  command:  
 ```bash  
 >  mvn  install  -PStreamerApp  
 ```  
@@ -103,7 +103,7 @@ For the testing purpose and easy to run producer, I have developed a configurabl
 ```bash  
 >  mvn exec:java -Dexec.mainClass="rs.com.sirius.xi.kafka.tm.producer.Producer"  -Dexec.args="--file;'path/to/data/Sample.txt' --port;9092 --host;localhost --topic;'log-frames-topic'"  
 ```  
-2. To run with preconfigured parameters profile, run the following:  
+2. To run with pre-configured parameters profile, run the following:  
 ```bash  
 >  mvn  install  -PProducer  
 ```  
