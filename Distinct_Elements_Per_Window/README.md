@@ -109,6 +109,6 @@ For the testing purpose and easy to run producer, I have developed a configurabl
 ```  
 Now After running this final piece of the application, you should see, *Kafka Consumer* and *Streamer* printing a JSON formatted messages with  the count of users per a specific window which is 1 minute for now.  
 ```javascript  
-{"Window":"Monday,November 12,2018 18:20/Monday,November 12,2018 18:21","users":14}  
-{"Window":"Monday,November 12,2018 18:21/Monday,November 12,2018 18:22","users":100}  
+{"Window":"From: Tuesday,November 13,2018 10:40:00, To: Tuesday,November 13,2018 10:41:00","users":23}
+{"Window":"From: Tuesday,November 13,2018 10:41:00, To: Tuesday,November 13,2018 10:42:00","users":27}  
 ```
