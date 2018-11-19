@@ -1,0 +1,54 @@
+Benchmark-Commands
+
+Producer
+
+Setup
+bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic test-rep-one --partitions 6 --replication-factor 1
+bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic test --partitions 6 --replication-factor 3
+
+Single thread, no replication
+
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test7 50000000 100 -1 acks=1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=8196
+
+Single-thread, async 3x replication
+
+bin/kafktopics.sh --zookeeper localhost:2181 --create --topic test --partitions 6 --replication-factor 3
+
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test6 50000000 100 -1 acks=1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=8196
+
+Single-thread, sync 3x replication
+
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test 50000000 100 -1 acks=-1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=64000
+
+Three Producers, 3x async replication
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test 50000000 100 -1 acks=1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=8196
+
+Throughput Versus Stored Data
+
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test 50000000000 100 -1 acks=1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=8196
+
+Effect of message size
+
+for i in 10 100 1000 10000 100000;
+do
+echo ""
+echo $i
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test $((1000*1024*1024/$i)) $i -1 acks=1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=128000
+done;
+
+Consumer
+Consumer throughput
+
+bin/kafka-consumer-perf-test.sh --zookeeper localhost:2181 --messages 50000000 --topic test --threads 1
+
+3 Consumers
+
+On three servers, run:
+bin/kafka-consumer-perf-test.sh --zookeeper localhost:2181 --messages 50000000 --topic test --threads 1
+
+Producer and consumer
+
+bin/kafka-run-class.sh org.apache.kafka.tools.ProducerPerformance test 50000000 100 -1 acks=1 bootstrap.servers=localhost:9092 buffer.memory=67108864 batch.size=8196
+
+bin/kafka-consumer-perf-test.sh --zookeeper localhost:2181 --messages 50000000 --topic test --threads 1
+

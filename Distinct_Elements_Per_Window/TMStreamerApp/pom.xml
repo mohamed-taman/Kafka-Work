@@ -62,7 +62,8 @@
                 <configuration>
                     <mainClass>rs.com.sirius.xi.kafka.tm.producer.Producer</mainClass>
                     <arguments>
-                        <argument>--file;/Users/mohamed_taman/Applications/Kafka/kafka_2.12-2.0.1/data/Sample.txt</argument>
+                        <!--<argument>-file;/Users/mohamed_taman/Applications/Kafka/kafka_2.12-2.0.1/data/Sample.txt</argument> -->
+                        <argument>--file;C:\Work\Utils\Apache\Kafka\2.12\bin\windows\test.json</argument>
                         <argument>--port;9092</argument>
                         <argument>--host;localhost</argument>
                         <argument>--topic;log-frames-topic</argument>
@@ -101,7 +102,8 @@
                                 <configuration>
                                     <mainClass>rs.com.sirius.xi.kafka.tm.producer.Producer</mainClass>
                                     <arguments>
-                                        <argument>--file;/Users/mohamed_taman/Applications/Kafka/kafka_2.12-2.0.1/data/Sample.txt</argument>
+                                        <!--<argument>-file;/Users/mohamed_taman/Applications/Kafka/kafka_2.12-2.0.1/data/Sample.txt</argument>-->
+                                        <argument>--file;C:\Work\Utils\Apache\Kafka\2.12\bin\windows\test.json</argument>
                                         <argument>--port;9092</argument>
                                         <argument>--host;localhost</argument>
                                         <argument>--topic;log-frames-topic</argument>

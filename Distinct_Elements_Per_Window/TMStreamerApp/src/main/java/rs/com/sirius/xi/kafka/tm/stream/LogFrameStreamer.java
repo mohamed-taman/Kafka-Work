@@ -1,7 +1,5 @@
 package rs.com.sirius.xi.kafka.tm.stream;
 
-import rs.com.sirius.xi.kafka.tm.stream.transform.LogFrameTransformerSupplier;
-import rs.com.sirius.xi.kafka.tm.stream.extractors.LogFrameTimestampExtractor;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
@@ -12,6 +10,7 @@ import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.connect.json.JsonDeserializer;
 import org.apache.kafka.connect.json.JsonSerializer;
 import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
@@ -26,21 +25,20 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
 import org.apache.kafka.streams.state.WindowStore;
+import rs.com.sirius.xi.kafka.tm.stream.config.PropertyParser;
+import rs.com.sirius.xi.kafka.tm.stream.extractors.LogFrameTimestampExtractor;
+import rs.com.sirius.xi.kafka.tm.stream.transform.LogFrameTransformerSupplier;
 
 import static com.fasterxml.jackson.databind.node.JsonNodeFactory.instance;
-
 import static java.lang.String.valueOf;
 import static java.lang.System.err;
 import static java.lang.System.out;
 import static java.util.Objects.nonNull;
-import org.apache.kafka.streams.KeyValue;
 import static org.apache.kafka.streams.KeyValue.pair;
-
 import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.STREAMER_APP_ID;
 import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.STREAMER_CLIENT_ID;
 import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.UNIQUE_USERS_STORE;
 import static rs.com.sirius.xi.kafka.tm.config.LogFrameConfigs.USER_COUNTS_STORE;
-import rs.com.sirius.xi.kafka.tm.stream.config.PropertyParser;
 import static rs.com.sirius.xi.kafka.tm.util.Utills.toFormatedDatetime;
 import static rs.com.sirius.xi.kafka.tm.util.Utills.toJsonString;
 
@@ -69,9 +67,9 @@ public final class LogFrameStreamer {
         StreamsBuilder builder = new StreamsBuilder();
 
         //Per minute window, could be any windows size for future configuration
-        TimeWindows timeWindows = TimeWindows.of(TimeUnit.MINUTES.toMillis(1));
+        TimeWindows timeWindows = TimeWindows.of(TimeUnit.HOURS.toMinutes(1));
 
-        /* 
+        /*
          Important (1 of 2): After creating the store manually using #createOrGetStateStore(StoreName)
          You must add the state store to the topology, otherwise your application
          will fail at run-time (because the state store is referred to in `transform()` below.
@@ -85,17 +83,17 @@ public final class LogFrameStreamer {
                                 Serdes.serdeFrom(new JsonSerializer(),
                                         new JsonDeserializer())));
 
-        /* 
-          Important (2 of 2):  
+        /*
+          Important (2 of 2):
           When we call `transform()` we must provide the name of the state store
-          that is going to be used by the `Transformer` returned by 
+          that is going to be used by the `Transformer` returned by
           `LogFrameTransformerSupplier` as the second parameter of `transform()`.
-    
-          (note: we are also passing the state store name to the constructor of 
+
+          (note: we are also passing the state store name to the constructor of
               `LogFrameTransformerSupplier`, which I do primarily for cleaner code).
-    
-          Otherwise our application will fail at run-time when attempting to 
-          operate on the state store (within the transformer) because 
+
+          Otherwise our application will fail at run-time when attempting to
+          operate on the state store (within the transformer) because
           `ProcessorContext#getStateStore("unique-users-store")` will return `null`.
          */
         KStream<Windowed<String>, Long> toStream
@@ -123,13 +121,13 @@ public final class LogFrameStreamer {
                         .toStream();
 
         /*
-          Map the stream to string Key/Value and creat 
+          Map the stream to string Key/Value and creat
           the final JSON String representation.
          */
         KStream<String, String> finalStream = toStream
                 .map((window, count) -> pair(window.toString(), toJsonString(instance.objectNode()
-                .put("Window", toFormatedDatetime(window.window().start())
-                        .concat("/")
+                .put("Window", "From: ".concat(toFormatedDatetime(window.window().start()))
+                        .concat(", To: ")
                         .concat(toFormatedDatetime(window.window().end())))
                 .put("users", count))));
 
@@ -169,7 +167,7 @@ public final class LogFrameStreamer {
 
         Properties streamConfigs = new Properties();
 
-        /* 
+        /*
           Give the Streams application a unique name.
           The name must be unique in the Kafka cluster
           against which the application is run.
@@ -197,19 +195,19 @@ public final class LogFrameStreamer {
 
         streamConfigs.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 10 * 1024 * 1024L);
 
-        /* 
-        Set the commit interval to 1s so that any changes are flushed frequently. 
+        /*
+        Set the commit interval to 1s so that any changes are flushed frequently.
         The low latency would be important for testing.
-        
+
         Set commit interval to 200 Milisecond.
          */
         streamConfigs.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 200);
 
         /*
-          Read the topic from the very beginning if no previous consumer offsets 
-          are found for this app. Resetting an app will set any existing consumer 
-          offsets to zero, so setting this config combined with resetting will 
-          cause the application to re-process all the input data in the topic. 
+          Read the topic from the very beginning if no previous consumer offsets
+          are found for this app. Resetting an app will set any existing consumer
+          offsets to zero, so setting this config combined with resetting will
+          cause the application to re-process all the input data in the topic.
          */
         streamConfigs.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
@@ -246,7 +244,7 @@ public final class LogFrameStreamer {
 
         try {
 
-            // Delete the application's local state on reset 
+            // Delete the application's local state on reset
             if (props.isDoReset()) {
                 streams.cleanUp();
             }
