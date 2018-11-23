@@ -3,7 +3,7 @@
 To solve the problem of calculating unique users per minute, day, week, month, year.  
 For the first version of the application, business wants us to provide just the unique users per minute.  
 ## How it works  
-Please follow the report document under `Report`  [folder,](https://github.com/mohamed-taman/Kafka-Work/tree/master/Distinct_Elements_Per_Window/Report) for all the requirements handling explanation and how the application works internally.  
+Please follow the report document under `Report`  [folder,](https://github.com/mohamed-taman/Kafka-Work/tree/master/Distinct_Elements_Per_Window/Report) for all the requirements handling explanation, and how the application works internally.  
 ## System Requirements 
 The following software pieces are required in order to run the application successfully. I have developed the application on **macOS Mojave**. and you can use **Linux** as well. 
 ### 1. Setup Java SE 8 (JDK 1.8 latest update)  
@@ -42,7 +42,7 @@ As we have installed Kafka, open a **new terminal window** from inside `/kafka_2
 ```bash  
 >  bin/zookeeper-server-start.sh config/zookeeper.properties  
 ```  
-3. And This command to start **Kafka Broker** in a **new terminal window  **  
+3. And This command to start **Kafka Broker** in a **new terminal window** too: 
 ```bash  
 >  bin/kafka-server-start.sh config/server.properties  
 ```  
